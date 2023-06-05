@@ -132,7 +132,7 @@ class InternalSystem {
             return;
         }
 
-        interior = data.interior ? interiors.get(data.interior) : interior;
+        interior = data.interiorUID ? interiors.get(data.interiorUID) : interior;
         if (!interior) {
             return;
         }
@@ -156,11 +156,11 @@ class InternalSystem {
      * @memberof InteriorSystem
      */
     static async refreshInteriorForPlayer(player: alt.Player) {
-        if (!player || !player.valid || !player.data || player.data.interior === null) {
+        if (!player || !player.valid || !player.data || player.data.interiorUID === null) {
             return;
         }
 
-        const interior = interiors.get(player.data.interior);
+        const interior = interiors.get(player.data.interiorUID);
         if (!interior) {
             return;
         }
@@ -557,8 +557,8 @@ class InternalSystem {
         }
 
         // Force the player into the interior they were last in.
-        if (player.data.interior) {
-            InteriorSystem.movePlayerIn(player, player.data.interior, true, true);
+        if (player.data.interiorUID) {
+            InteriorSystem.movePlayerIn(player, player.data.interiorUID, true, true);
         }
     }
 }
@@ -758,8 +758,8 @@ export class InteriorSystem {
             }, 1000);
         }
 
-        //TODO; set player interior
-        //Athena.state.set(player, 'interior', interior.uid);
+        // set player interior
+        Athena.document.character.set(player, 'interiorUID', interior.uid);
         InternalSystem.refreshInteriorForPlayer(player);
         return true;
     }
@@ -773,7 +773,7 @@ export class InteriorSystem {
      * @memberof InteriorSystem
      */
     static async movePlayerOut(player: alt.Player, skipDistanceCheck = false): Promise<boolean> {
-        const interior = await InteriorSystem.get(player.data.interior);
+        const interior = await InteriorSystem.get(player.data.interiorUID);
 
         if (!interior) {
             Athena.player.safe.setDimension(player, 0);
@@ -812,8 +812,9 @@ export class InteriorSystem {
         Athena.player.safe.setDimension(player, 0);
         Athena.player.safe.setPosition(player, interior.outside.x, interior.outside.y, interior.outside.z + 1);
 
-        // TODO: delete player interior
-        // Athena.state.set(player, 'interior', null);
+        // delete player interior
+        Athena.document.character.set(player, 'interiorUID', null);
+
         alt.setTimeout(() => {
             if (!player || !player.valid) {
                 return;

@@ -19,6 +19,6 @@ declare module 'alt-server' {
          * @type {(null | undefined | string)}
          * @memberof Character
          */
-        interior?: null | undefined | string;
+        interiorUID?: null | undefined | string;
     }
 }
