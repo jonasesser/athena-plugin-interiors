@@ -558,7 +558,7 @@ class InternalSystem {
 
         // Force the player into the interior they were last in.
         if (player.data.interiorUID) {
-            InteriorSystem.movePlayerIn(player, player.data.interiorUID, true, true);
+            InteriorSystem.movePlayerIn(player, player.data.interiorUID, true, true, true);
         }
     }
 }
@@ -671,6 +671,7 @@ export class InteriorSystem {
         uid: string,
         noTeleport = false,
         skipDistanceCheck = false,
+        skipLockCheck = false,
     ): Promise<boolean> {
         const interior = await InteriorSystem.get(uid);
 
@@ -687,9 +688,11 @@ export class InteriorSystem {
             }
         }
 
-        if (isFlagEnabled(interior.system, INTERIOR_SYSTEM.HAS_LOCK) && !interior.isUnlocked) {
-            Athena.player.emit.notification(player, LOCALE_INTERIOR_VIEW.LABEL_DOOR_IS_LOCKED);
-            return false;
+        if (!skipLockCheck) {
+            if (isFlagEnabled(interior.system, INTERIOR_SYSTEM.HAS_LOCK) && !interior.isUnlocked) {
+                Athena.player.emit.notification(player, LOCALE_INTERIOR_VIEW.LABEL_DOOR_IS_LOCKED);
+                return false;
+            }
         }
 
         // Check rules for entering interior.

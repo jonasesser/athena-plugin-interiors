@@ -1,6 +1,6 @@
 export enum LOCALE_INTERIOR_VIEW {
-    LABEL_TRY_UNLOCK = 'Try Unlock',
-    LABEL_TRY_LOCK = 'Try Lock',
+    LABEL_TRY_UNLOCK = 'Unlock',
+    LABEL_TRY_LOCK = 'Lock',
     LABEL_TOO_FAR = 'Too too far away from door',
     LABEL_NO_KEYS = 'No keys for door',
     LABEL_SET_SALE_PRICE = 'Set Sale Price',

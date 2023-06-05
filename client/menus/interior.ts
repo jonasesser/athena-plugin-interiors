@@ -182,13 +182,13 @@ function exitMenu(interior: Interior) {
         color: 'yellow',
     });
 
-    options.push({
-        name: 'UID',
-        callback: () => {
-            console.log(`===> ${interior.name}`);
-            console.log(`UID: ${interior.uid}`);
-        },
-    });
+    // options.push({
+    //     name: 'UID',
+    //     callback: () => {
+    //         console.log(`===> ${interior.name}`);
+    //         console.log(`UID: ${interior.uid}`);
+    //     },
+    // });
 
     // Ownership Related Menu Functions
     if (isOwner) {
